@@ -1,5 +1,6 @@
 package com.example.springjobboard.model.jobs;
 
+import com.example.springjobboard.model.EntityWithId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,7 +12,7 @@ import lombok.*;
 @Getter @Setter
 @EqualsAndHashCode
 @ToString
-public class JobCategory {
+public class JobCategory implements EntityWithId<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

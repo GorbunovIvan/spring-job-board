@@ -1,5 +1,6 @@
 package com.example.springjobboard.model.jobs;
 
+import com.example.springjobboard.model.EntityWithId;
 import com.example.springjobboard.model.users.Applicant;
 import com.example.springjobboard.model.users.Employer;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import lombok.*;
 @Getter @Setter
 @EqualsAndHashCode
 @ToString
-public class ResponseToVacancy {
+public class ResponseToVacancy implements EntityWithId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

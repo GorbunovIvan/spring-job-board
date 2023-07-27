@@ -1,5 +1,6 @@
 package com.example.springjobboard.model.users;
 
+import com.example.springjobboard.model.EntityWithId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @EqualsAndHashCode(of = { "email" })
 @ToString
-public class User {
+public class User implements EntityWithId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
