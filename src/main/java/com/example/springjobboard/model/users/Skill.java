@@ -1,5 +1,6 @@
 package com.example.springjobboard.model.users;
 
+import com.example.springjobboard.model.EntityWithId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 @Getter @Setter
 @EqualsAndHashCode(of = "name")
 @ToString
-public class Skill {
+public class Skill implements EntityWithId<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

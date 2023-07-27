@@ -1,5 +1,6 @@
 package com.example.springjobboard.model.users;
 
+import com.example.springjobboard.model.EntityWithId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
 @ToString
-public class Applicant {
+public class Applicant implements EntityWithId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
