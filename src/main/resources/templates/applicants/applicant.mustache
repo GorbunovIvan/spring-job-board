@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>applicant :: {{applicant.getFullName}}</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h4>Applicant</h4>
+            <p>First name: <span>{{applicant.getFirstName}}</span></p>
+            <p>Last name: <span>{{applicant.getLastName}}</span></p>
+            <p>Description: <span>{{applicant.getDescription}}</span></p>
+            <hr/>
+        </div>
+        <div>
+            <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
+            <hr/>
+        </div>
+        <div>
+            <p>Skills:</p>
+            {{#applicant.getSkills}}
+                <div>
+                    <span>{{getName}}</span>
+                    <br/>
+                </div>
+            {{/applicant.getSkills}}
+        </div>
+    </div>
+</body>
+</html>

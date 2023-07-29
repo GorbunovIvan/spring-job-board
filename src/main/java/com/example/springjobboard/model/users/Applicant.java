@@ -23,27 +23,35 @@ public class Applicant implements EntityWithId<Long> {
     @Column(name = "first_name")
     @NotNull
     @Size(min = 2, max = 99, message = "First name should be in range from 2 to 99 characters")
-    private String firstName;
+    private String firstName = "";
 
     @Column(name = "last_name")
     @NotNull
     @Size(min = 2, max = 99, message = "Last name should be in range from 2 to 99 characters")
-    private String lastName;
+    private String lastName = "";
 
     @Column(name = "description")
     @NotNull
     @Size(min = 10, max = 999, message = "Description should be in range from 10 to 999 characters")
-    private String description;
+    private String description = "";
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "skills_applicants",
             joinColumns = @JoinColumn(name = "applicant_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
     @ToString.Exclude
     private Set<Skill> skills = new HashSet<>();
+
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
+    public void addSkill(Skill skill) {
+        getSkills().add(skill);
+    }
 }

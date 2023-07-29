@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adding new applicant</title>
+</head>
+<body>
+    <div>
+
+        <h3>Adding new applicant</h3>
+
+        <div>
+            <form method="POST" action="/applicants">
+                <div>
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName" value="{{applicant.getFirstName}}"/>
+                    <div>{{#errors}}{{#firstName}}<div style="color:red">{{.}}</div>{{/firstName}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName" value="{{applicant.getLastName}}"/>
+                    <div>{{#errors}}{{#lastName}}<div style="color:red">{{.}}</div>{{/lastName}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input id="description" name="description" value="{{applicant.getDescription}}"/>
+                    <div>{{#errors}}{{#description}}<div style="color:red">{{.}}</div>{{/description}}{{/errors}}</div>
+                </div>
+                <br/>
+                <div>
+                    <button type="submit">Add applicant</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
