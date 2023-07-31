@@ -10,8 +10,6 @@
         <h3>Editing applicant - '{{applicant.getFullName}}'</h3>
 
         <div>
-            <p>Main info</p>
-
             <form method="POST" action="/applicants/{{{applicant.getId}}}">
                 <div>
                     <label for="firstName">First name</label>
@@ -30,27 +28,25 @@
                 </div>
                 <br/>
                 <div>
-                    <button type="submit">Update main info</button>
+                    {{#optionalProperties}}
+                        <div>
+                            <fieldset id="skills" name="skills" title="Skills">
+                                <legend>Skills</legend>
+                                {{#skills}}
+                                    <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/skills}}
+                            </fieldset>
+                        </div>
+                    {{/optionalProperties}}
                 </div>
-            </form>
-            <hr/>
-        </div>
-
-        <div>
-            <p>Skills:</p>
-            <form method="POST" action="/applicants/{{{applicant.getId}}}/add-skill">
-                <label for="skill" hidden>new skill</label>
-                <input id="skill" name="skill" placeholder="new skill"/>
-                <button type="submit">Add skill</button>
-            </form>
-            {{#applicant.getSkills}}
+                <br/>
                 <div>
-                    <span>{{getName}}</span>
-                    <br/>
+                    <button type="submit">Update applicant</button>
                 </div>
-            {{/applicant.getSkills}}
+            </form>
         </div>
-
     </div>
 </body>
 </html>

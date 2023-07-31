@@ -1,6 +1,7 @@
 package com.example.springjobboard.model.users;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasId;
+import com.example.springjobboard.model.HasName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ import lombok.*;
 @Getter @Setter
 @EqualsAndHashCode(of = "name")
 @ToString
-public class Skill implements EntityWithId<Integer> {
+public class Skill implements HasId<Integer>, HasName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,11 @@ public class Skill implements EntityWithId<Integer> {
     private String name;
 
     public Skill(String name) {
-        this.name = name;
+        this.name = HasName.getRemasteredName(name);
+    }
+
+    @PrePersist
+    private void init() {
+        setName(HasName.getRemasteredName(name));
     }
 }

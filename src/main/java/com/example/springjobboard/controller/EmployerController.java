@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmployerController {
 
     private final EmployerRepository employerRepository;
-    private final UtilForControllers utilForControllers;
+    private final ControllersUtil controllersUtil;
 
     @GetMapping
     public String getAll(Model model) {
@@ -41,7 +41,7 @@ public class EmployerController {
     public String processCreation(Model model, @ModelAttribute @Valid Employer employer,
                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", utilForControllers.bindingResultErrorsToMap(bindingResult));
+            model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
             model.addAttribute("employer", employer);
             return "employers/createForm";
         }
@@ -63,7 +63,7 @@ public class EmployerController {
         var employerPersisted = getEmployerByIdOrThrowException(id);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", utilForControllers.bindingResultErrorsToMap(bindingResult));
+            model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
             model.addAttribute("employer", employer);
             return "employers/updateForm";
         }
@@ -84,12 +84,12 @@ public class EmployerController {
     }
 
     @DeleteMapping("/{id}")
-    public String processUpdate(@PathVariable Long id) {
+    public String processDelete(@PathVariable Long id) {
         var result = employerRepository.deleteById(id);
         if (!result) {
             throw new EntityNotFoundException(String.format("employer with id '%d' is not found", id));
         }
-        return "redirect:/employers/" + id;
+        return "redirect:/employers";
     }
 
     private Employer getEmployerByIdOrThrowException(Long id) {

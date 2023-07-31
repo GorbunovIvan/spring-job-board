@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editing vacancy :: {{vacancy.getTitle}}</title>
+</head>
+<body>
+    <div>
+
+        <h3>Editing vacancy - '{{vacancy.getTitle}}'</h3>
+
+        <div>
+            <form method="POST" action="/vacancies/{{{vacancy.getId}}}">
+                <div>
+                    <label for="title">Title</label>
+                    <input id="title" name="title" value="{{vacancy.getTitle}}"/>
+                    <div>{{#errors}}{{#title}}<div style="color:red">{{.}}</div>{{/title}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input id="description" name="description" value="{{vacancy.getDescription}}"/>
+                    <div>{{#errors}}{{#description}}<div style="color:red">{{.}}</div>{{/description}}{{/errors}}</div>
+                </div>
+                <br/>
+                <div>
+                    {{#optionalProperties}}
+                        <div>
+                            <fieldset id="types" name="types" title="Types">
+                                <legend>Types</legend>
+                                {{#types}}
+                                    <input id={{getName}} type="checkbox" name="types" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/types}}
+                            </fieldset>
+                            <br/>
+                        </div>
+                        <div>
+                            <fieldset id="modes" name="modes" title="Modes">
+                                <legend>Modes</legend>
+                                {{#modes}}
+                                    <input id={{getName}} type="checkbox" name="modes" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/modes}}
+                            </fieldset>
+                            <br/>
+                        </div>
+                        <div>
+                            <fieldset id="categories" name="categories" title="categories">
+                                <legend>Categories</legend>
+                                {{#categories}}
+                                    <input id={{getName}} type="checkbox" name="categories" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/categories}}
+                            </fieldset>
+                            <br/>
+                        </div>
+                        <div>
+                            <fieldset id="skills" name="skills" title="Skills">
+                                <legend>Skills</legend>
+                                {{#skills}}
+                                    <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/skills}}
+                            </fieldset>
+                        </div>
+                    {{/optionalProperties}}
+                </div>
+                <br/>
+                <div>
+                    <button type="submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

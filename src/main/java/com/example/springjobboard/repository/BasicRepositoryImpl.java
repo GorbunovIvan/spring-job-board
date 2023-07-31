@@ -1,6 +1,6 @@
 package com.example.springjobboard.repository;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 @Slf4j
 @Scope("prototype")
-public class BasicRepositoryImpl<T extends EntityWithId<ID>, ID> implements BasicRepository<T, ID> {
+public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicRepository<T, ID> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,10 +30,10 @@ public class BasicRepositoryImpl<T extends EntityWithId<ID>, ID> implements Basi
     private String className;
 
     public void setClazz(@NotNull Class<T> clazz) {
-        setClazzForChildren(clazz);
+        setClazzForExtendedRepository(clazz);
     }
 
-    protected void setClazzForChildren(@NotNull Class<T> clazz) {
+    protected void setClazzForExtendedRepository(@NotNull Class<T> clazz) {
         this.clazz = clazz;
         this.className = this.clazz.getSimpleName();
     }
@@ -58,7 +58,8 @@ public class BasicRepositoryImpl<T extends EntityWithId<ID>, ID> implements Basi
         var fields = Arrays.stream(getClazz().getDeclaredFields())
                 .filter(f -> Collection.class.isAssignableFrom(f.getType()))
                 .filter(f -> f.isAnnotationPresent(OneToMany.class)
-                            || f.isAnnotationPresent(ManyToMany.class))
+                            || f.isAnnotationPresent(ManyToMany.class)
+                            || f.isAnnotationPresent(CollectionTable.class))
                 .map(Field::getName)
                 .toArray(String[]::new);
 
@@ -128,37 +129,5 @@ public class BasicRepositoryImpl<T extends EntityWithId<ID>, ID> implements Basi
         } else {
             return false;
         }
-    }
-
-    private void doInSession(Consumer<EntityManager> consumer) {
-        EntityTransaction transaction = null;
-        try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
-            consumer.accept(entityManager);
-            transaction.commit();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-    }
-
-    private T doInSessionAndReturn(Function<EntityManager, T> function) {
-        EntityTransaction transaction = null;
-        try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
-            T result = function.apply(entityManager);
-            transaction.commit();
-            return result;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return null;
     }
 }

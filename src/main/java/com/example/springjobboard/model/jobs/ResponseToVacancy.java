@@ -1,19 +1,21 @@
 package com.example.springjobboard.model.jobs;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasId;
 import com.example.springjobboard.model.users.Applicant;
-import com.example.springjobboard.model.users.Employer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "response-to-vacancies")
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = { "vacancy", "applicant" })
 @ToString
-public class ResponseToVacancy implements EntityWithId<Long> {
+public class ResponseToVacancy implements HasId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +27,18 @@ public class ResponseToVacancy implements EntityWithId<Long> {
     private Vacancy vacancy;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "applicant_id")
     @NotNull
     private Applicant applicant;
 
-    @ManyToOne
-    @JoinColumn(name = "employer_id")
-    @NotNull
-    private Employer employer;
+    @Column(name = "created_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    private void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
 }

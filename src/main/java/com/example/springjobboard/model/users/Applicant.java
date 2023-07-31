@@ -1,20 +1,23 @@
 package com.example.springjobboard.model.users;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasCollections;
+import com.example.springjobboard.model.HasId;
+import com.example.springjobboard.model.HasName;
+import com.example.springjobboard.model.jobs.ResponseToVacancy;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "applicants")
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
+@EqualsAndHashCode(of = { "user" })
 @ToString
-public class Applicant implements EntityWithId<Long> {
+public class Applicant implements HasId<Long>, HasCollections {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +50,22 @@ public class Applicant implements EntityWithId<Long> {
     @ToString.Exclude
     private Set<Skill> skills = new HashSet<>();
 
+    @OneToMany(mappedBy = "applicant")
+    @ToString.Exclude
+    private Set<ResponseToVacancy> responses = new HashSet<>();
+
     public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
 
     public void addSkill(Skill skill) {
         getSkills().add(skill);
+    }
+
+    @Override
+    public Map<String, Collection<? extends HasName>> getCollections() {
+        var collections = new HashMap<String, Collection<? extends HasName>>();
+        collections.put("skills", getSkills());
+        return collections;
     }
 }

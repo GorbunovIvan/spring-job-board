@@ -28,6 +28,21 @@
                 </div>
                 <br/>
                 <div>
+                    {{#optionalProperties}}
+                        <div>
+                            <fieldset id="skills" name="skills" title="Skills">
+                                <legend>Skills</legend>
+                                {{#skills}}
+                                    <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/skills}}
+                            </fieldset>
+                        </div>
+                    {{/optionalProperties}}
+                </div>
+                <br/>
+                <div>
                     <button type="submit">Add applicant</button>
                 </div>
             </form>

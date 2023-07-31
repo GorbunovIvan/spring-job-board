@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 public class EmployerRepository extends BasicRepositoryImpl<Employer, Long> {
 
     public EmployerRepository() {
-        setClazzForChildren(Employer.class);
+        setClazzForExtendedRepository(Employer.class);
     }
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vacancy :: {{vacancy.getTitle}}</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h4>Vacancy</h4>
+            <p>Title: <span>{{vacancy.getTitle}}</span></p>
+            <p>Description: <span>{{vacancy.getDescription}}</span></p>
+            <hr/>
+        </div>
+        <div>
+            <a href="/vacancies/{{{vacancy.getId}}}/edit">Edit vacancy</a><br/><br/>
+            <form method="POST" action="/vacancies/{{{vacancy.getId}}}/delete">
+                <button>Delete vacancy</button>
+            </form>
+            <a href="/vacancies/{{{vacancy.getId}}}/respond">Respond to this vacancy</a>
+            <hr/>
+        </div>
+        <div>
+            {{#optionalProperties}}
+                <div>
+                    <fieldset id="types" name="types" title="Types">
+                        <legend>Types</legend>
+                        {{#types}}
+                            <input id={{getName}} type="checkbox" name="types" value={{getName}} value={{getName}} {{#isChecked}}checked{{/isChecked}} disabled/>
+                            <label for={{getName}}>{{getName}}</label>
+                            <span>&ensp;</span>
+                        {{/types}}
+                    </fieldset>
+                    <br/>
+                </div>
+                <div>
+                    <fieldset id="modes" name="modes" title="Modes">
+                        <legend>Modes</legend>
+                        {{#modes}}
+                            <input id={{getName}} type="checkbox" name="modes" value={{getName}} {{#isChecked}}checked{{/isChecked}} disabled/>
+                            <label for={{getName}}>{{getName}}</label>
+                            <span>&ensp;</span>
+                        {{/modes}}
+                    </fieldset>
+                    <br/>
+                </div>
+                <div>
+                    <fieldset id="categories" name="categories" title="categories">
+                        <legend>Categories</legend>
+                        {{#categories}}
+                            <input id={{getName}} type="checkbox" name="categories" value={{getName}} {{#isChecked}}checked{{/isChecked}} disabled/>
+                            <label for={{getName}}>{{getName}}</label>
+                            <span>&ensp;</span>
+                        {{/categories}}
+                    </fieldset>
+                    <br/>
+                </div>
+                <div>
+                    <fieldset id="skills" name="skills" title="Skills">
+                        <legend>Skills</legend>
+                        {{#skills}}
+                            <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}} disabled/>
+                            <label for={{getName}}>{{getName}}</label>
+                            <span>&ensp;</span>
+                        {{/skills}}
+                    </fieldset>
+                </div>
+            {{/optionalProperties}}
+        </div>
+        <div>
+            <p>Responses to vacancy:</p>
+            {{#vacancy.getResponses}}
+                <div>
+                    <span>{{getCreatedAt}}</span>
+                    <span>by </span>
+                    <a href="/applicants/{{{getApplicant.getId}}}">{{getApplicant.getFullName}}</a>
+                    <br/>
+                </div>
+            {{/vacancy.getResponses}}
+        </div>
+    </div>
+</body>
+</html>

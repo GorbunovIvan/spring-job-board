@@ -1,11 +1,11 @@
 package com.example.springjobboard.repository;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasId;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
-public interface BasicRepository<T extends EntityWithId<ID>, ID> {
+public interface BasicRepository<T extends HasId<ID>, ID> {
     void setClazz(@NotNull Class<T> clazz);
     Set<T> findAll();
     T findById(ID id);

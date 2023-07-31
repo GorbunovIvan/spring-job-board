@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 public class ApplicantRepository extends BasicRepositoryImpl<Applicant, Long> {
 
     public ApplicantRepository() {
-        setClazzForChildren(Applicant.class);
+        setClazzForExtendedRepository(Applicant.class);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.springjobboard.model;
 
-public interface EntityWithId<T> {
+public interface HasId<T> {
 
     T getId();
 
