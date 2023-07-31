@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>applicant :: {{applicant.getFullName}}</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h4>Applicant</h4>
+            <p>First name: <span>{{applicant.getFirstName}}</span></p>
+            <p>Last name: <span>{{applicant.getLastName}}</span></p>
+            <p>Description: <span>{{applicant.getDescription}}</span></p>
+            <hr/>
+        </div>
+        <div>
+            <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
+            <hr/>
+        </div>
+        <br/>
+        <div>
+            {{#optionalProperties}}
+                <div>
+                    <fieldset id="skills" name="skills" title="Skills">
+                        <legend>Skills</legend>
+                        {{#skills}}
+                            <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}} disabled/>
+                            <label for={{getName}}>{{getName}}</label>
+                            <span>&ensp;</span>
+                        {{/skills}}
+                    </fieldset>
+                </div>
+            {{/optionalProperties}}
+        </div>
+        <div>
+            <p>Responded to vacancies:</p>
+            {{#applicant.getResponses}}
+                <div>
+                    <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>
+                    <br/>
+                </div>
+            {{/applicant.getResponses}}
+        </div>
+    </div>
+</body>
+</html>

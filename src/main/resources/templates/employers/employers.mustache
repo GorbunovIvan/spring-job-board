@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employers</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h4>Employers</h4>
+            {{#employers}}
+            <div>
+                <a href="/employers/{{{getId}}}">{{getName}}</a>
+                <br/>
+            </div>
+            {{/employers}}
+            <hr/>
+        </div>
+        <div>
+            <a href="/employers/new">Add new</a>
+        </div>
+    </div>
+</body>
+</html>

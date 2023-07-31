@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>employer :: {{employer.getName}}</title>
+</head>
+<body>
+    <div>
+
+        <div>
+            <h4>Employer</h4>
+            <p>Name: <span>{{employer.getName}}</span></p>
+            <hr/>
+        </div>
+
+        <div>
+            <a href="/employers/{{{employer.getId}}}/edit">Edit</a>
+            <hr/>
+        </div>
+
+        <div>
+            <p>Vacancies:</p>
+            <div>
+                <b><a href="/vacancies/new">Add new vacancy</a></b>
+                <br/>
+                <br/>
+            </div>
+            {{#employer.getVacancies}}
+                <div>
+                    <a href="/vacancies/{{{getId}}}">{{getTitle}}</a>
+                    <br/>
+                </div>
+            {{/employer.getVacancies}}
+        </div>
+
+    </div>
+</body>
+</html>

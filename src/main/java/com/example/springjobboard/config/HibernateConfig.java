@@ -16,7 +16,7 @@ public class HibernateConfig {
 
     @Value("${jpa.datasource.url}")
     private String url;
-
+    
     @Value("${jpa.datasource.username}")
     private String username;
 

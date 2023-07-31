@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Applicants</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h4>Applicants</h4>
+            {{#applicants}}
+            <div>
+                <a href="/applicants/{{{getId}}}">{{getFullName}}</a>
+                <br/>
+            </div>
+            {{/applicants}}
+            <hr/>
+        </div>
+        <div>
+            <a href="/applicants/new">Add new</a>
+        </div>
+    </div>
+</body>
+</html>

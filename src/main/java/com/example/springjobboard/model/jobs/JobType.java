@@ -1,11 +1,12 @@
 package com.example.springjobboard.model.jobs;
 
+import com.example.springjobboard.model.HasName;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
-public enum JobType {
+@Getter
+public enum JobType implements HasName {
 
     PERMANENT("Permanent"),
     TEMPORARY("Temporary"),
@@ -14,4 +15,13 @@ public enum JobType {
     PART_TIME("Part-time");
 
     private final String name;
+
+    public static JobType getByName(String name) {
+        for (var value : values()) {
+            if (value.getName().equals(name)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

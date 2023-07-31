@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editing applicant :: {{applicant.getFullName}}</title>
+</head>
+<body>
+    <div>
+
+        <h3>Editing applicant - '{{applicant.getFullName}}'</h3>
+
+        <div>
+            <form method="POST" action="/applicants/{{{applicant.getId}}}">
+                <div>
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName" value="{{applicant.getFirstName}}"/>
+                    <div>{{#errors}}{{#firstName}}<div style="color:red">{{.}}</div>{{/firstName}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName" value="{{applicant.getLastName}}"/>
+                    <div>{{#errors}}{{#lastName}}<div style="color:red">{{.}}</div>{{/lastName}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input id="description" name="description" value="{{applicant.getDescription}}"/>
+                    <div>{{#errors}}{{#description}}<div style="color:red">{{.}}</div>{{/description}}{{/errors}}</div>
+                </div>
+                <br/>
+                <div>
+                    {{#optionalProperties}}
+                        <div>
+                            <fieldset id="skills" name="skills" title="Skills">
+                                <legend>Skills</legend>
+                                {{#skills}}
+                                    <input id={{getName}} type="checkbox" name="skills" value={{getName}} {{#isChecked}}checked{{/isChecked}}/>
+                                    <label for={{getName}}>{{getName}}</label>
+                                    <span>&ensp;</span>
+                                {{/skills}}
+                            </fieldset>
+                        </div>
+                    {{/optionalProperties}}
+                </div>
+                <br/>
+                <div>
+                    <button type="submit">Update applicant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

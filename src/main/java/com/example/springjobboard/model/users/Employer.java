@@ -1,12 +1,11 @@
 package com.example.springjobboard.model.users;
 
-import com.example.springjobboard.model.EntityWithId;
+import com.example.springjobboard.model.HasId;
 import com.example.springjobboard.model.jobs.Vacancy;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,17 +16,17 @@ import java.util.Set;
 @Getter @Setter
 @EqualsAndHashCode(of = { "name" })
 @ToString
-public class Employer implements EntityWithId<Long> {
+public class Employer implements HasId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NotNull
     @Size(min = 2, max = 99, message = "Name should be in range from 2 to 99 characters")
-    @UniqueElements
-    private String name;
+//    @UniqueElements
+    private String name = "";
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -36,4 +35,8 @@ public class Employer implements EntityWithId<Long> {
     @OneToMany(mappedBy = "employer")
     @ToString.Exclude
     private Set<Vacancy> vacancies = new HashSet<>();
+
+    public void addVacancy(Vacancy vacancy) {
+        getVacancies().add(vacancy);
+    }
 }
