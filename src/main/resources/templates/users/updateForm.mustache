@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Adding new employer</title>
+    <title>editing user :: {{user.getName}}</title>
 </head>
 <body>
     <div>
@@ -15,18 +15,23 @@
             <hr/>
         </div>
 
-        <h3>Adding new employer</h3>
+        <h3>Editing user - '{{user.getName}}'</h3>
 
         <div>
-            <form method="POST" action="/employers">
+            <form method="POST" action="/users/my-page/edit">
                 <div>
                     <label for="name">Name</label>
-                    <input id="name" name="name" value="{{employer.getName}}"/>
+                    <input id="name" name="name" value="{{user.getName}}"/>
                     <div>{{#errors}}{{#name}}<div style="color:red">{{.}}</div>{{/name}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" value="{{user.getEmail}}"/>
+                    <div>{{#errors}}{{#email}}<div style="color:red">{{.}}</div>{{/email}}{{/errors}}</div>
                 </div>
                 <br/>
                 <div>
-                    <button type="submit">Add employer</button>
+                    <button type="submit">Update user</button>
                 </div>
             </form>
         </div>

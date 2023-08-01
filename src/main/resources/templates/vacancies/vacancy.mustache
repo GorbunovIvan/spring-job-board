@@ -7,17 +7,41 @@
 <body>
     <div>
         <div>
-            <h4>Vacancy</h4>
-            <p>Title: <span>{{vacancy.getTitle}}</span></p>
-            <p>Description: <span>{{vacancy.getDescription}}</span></p>
+            <a href="/users/my-page">My page</a><span>&emsp;</span>
+            <a href="/vacancies">Vacancies</a><span>&emsp;</span>
+            <a href="/employers">Employers</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a><span>&emsp;</span>
             <hr/>
         </div>
         <div>
-            <a href="/vacancies/{{{vacancy.getId}}}/edit">Edit vacancy</a><br/><br/>
-            <form method="POST" action="/vacancies/{{{vacancy.getId}}}/delete">
-                <button>Delete vacancy</button>
-            </form>
-            <a href="/vacancies/{{{vacancy.getId}}}/respond">Respond to this vacancy</a>
+            <h4>Vacancy</h4>
+            <p>Title: <span>{{vacancy.getTitle}}</span></p>
+            <p>Description: <span>{{vacancy.getDescription}}</span></p>
+            <p>By employer: <a href="/employers/{{{vacancy.getEmployer.getId}}}">{{vacancy.getEmployer.getName}}</a></p>
+            <p>Status: <span>{{vacancy.getStatus.name}}</span></p>
+            <hr/>
+        </div>
+        <div>
+            <div>
+                {{#postedByCurrentEmployer}}
+                    <a href="/vacancies/{{{vacancy.getId}}}/edit">Edit vacancy</a><br/><br/>
+                    <form method="POST" action="/vacancies/{{{vacancy.getId}}}/delete">
+                        <button>Delete vacancy</button>
+                    </form>
+                {{/postedByCurrentEmployer}}
+            </div>
+            <div>
+                {{#currentApplicant}}
+                    {{^postedByCurrentEmployer}}
+                        {{#currentApplicantResponse}}
+                            <p>You already responded to this vacancy at {{currentApplicantResponse.getCreatedAt}}</p>
+                        {{/currentApplicantResponse}}
+                        {{^currentApplicantResponse}}
+                            <a href="/vacancies/{{{vacancy.getId}}}/respond">Respond to this vacancy</a>
+                        {{/currentApplicantResponse}}
+                    {{/postedByCurrentEmployer}}
+                {{/currentApplicant}}
+            </div>
             <hr/>
         </div>
         <div>
@@ -68,15 +92,17 @@
             {{/optionalProperties}}
         </div>
         <div>
-            <p>Responses to vacancy:</p>
-            {{#vacancy.getResponses}}
-                <div>
-                    <span>{{getCreatedAt}}</span>
-                    <span>by </span>
-                    <a href="/applicants/{{{getApplicant.getId}}}">{{getApplicant.getFullName}}</a>
-                    <br/>
-                </div>
-            {{/vacancy.getResponses}}
+            {{#postedByCurrentEmployer}}
+                <p>Responses to vacancy:</p>
+                {{#vacancy.getResponses}}
+                    <div>
+                        <span>{{getCreatedAt}}</span>
+                        <span>by </span>
+                        <a href="/applicants/{{{getApplicant.getId}}}">{{getApplicant.getFullName}}</a>
+                        <br/>
+                    </div>
+                {{/vacancy.getResponses}}
+            {{/postedByCurrentEmployer}}
         </div>
     </div>
 </body>

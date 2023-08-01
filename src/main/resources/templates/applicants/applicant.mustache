@@ -7,6 +7,13 @@
 <body>
     <div>
         <div>
+            <a href="/users/my-page">My page</a><span>&emsp;</span>
+            <a href="/vacancies">Vacancies</a><span>&emsp;</span>
+            <a href="/employers">Employers</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <hr/>
+        </div>
+        <div>
             <h4>Applicant</h4>
             <p>First name: <span>{{applicant.getFirstName}}</span></p>
             <p>Last name: <span>{{applicant.getLastName}}</span></p>
@@ -14,8 +21,10 @@
             <hr/>
         </div>
         <div>
-            <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
-            <hr/>
+            {{#isCurrentApplicant}}
+                <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
+                <hr/>
+            {{/isCurrentApplicant}}
         </div>
         <br/>
         <div>
@@ -33,13 +42,18 @@
             {{/optionalProperties}}
         </div>
         <div>
-            <p>Responded to vacancies:</p>
-            {{#applicant.getResponses}}
+            {{#isCurrentApplicant}}
+                <p>Responded to vacancies:</p>
                 <div>
-                    <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>
-                    <br/>
+                    <p><a href="/vacancies/for-current-applicant">Advice me vacancies</a></p>
                 </div>
-            {{/applicant.getResponses}}
+                {{#applicant.getResponses}}
+                    <div>
+                        <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>
+                        <br/>
+                    </div>
+                {{/applicant.getResponses}}
+            {{/isCurrentApplicant}}
         </div>
     </div>
 </body>

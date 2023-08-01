@@ -1,4 +1,4 @@
-package com.example.springjobboard.repository;
+package com.example.springjobboard.repository.basic;
 
 import com.example.springjobboard.model.HasId;
 import jakarta.persistence.*;
@@ -13,14 +13,12 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
+@Scope("prototype")
 @Getter
 @Slf4j
-@Scope("prototype")
 public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicRepository<T, ID> {
 
     @PersistenceContext

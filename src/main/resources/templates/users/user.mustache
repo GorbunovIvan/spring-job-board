@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user :: {{user.getName}}</title>
+</head>
+<body>
+    <div>
+
+        <div>
+            <a href="/users/my-page">My page</a><span>&emsp;</span>
+            <a href="/vacancies">Vacancies</a><span>&emsp;</span>
+            <a href="/employers">Employers</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <hr/>
+        </div>
+
+        <div>
+            <h4>User</h4>
+            <div>
+                <p>Name: <span>{{user.getName}}</span></p>
+                <p>Email: <span>{{user.getEmail}}</span></p>
+                <p>Created at: <span>{{user.getCreatedAt}}</span></p>
+                <hr/>
+            </div>
+            <div>
+                {{#user.getEmployer}}
+                    <p>Your employer page: <a href="/employers/{{{user.getEmployer.getId}}}">{{user.getEmployer.getName}}</a></p>
+                {{/user.getEmployer}}
+                {{^user.getEmployer}}
+                    <p><a href="/employers/new">Create employer page</a></p>
+                {{/user.getEmployer}}
+            </div>
+            <div>
+                {{#user.getApplicant}}
+                    <p>Your applicant page: <a href="/applicants/{{{user.getApplicant.getId}}}">{{user.getApplicant.getFullName}}</a></p>
+                {{/user.getApplicant}}
+                {{^user.getApplicant}}
+                    <p><a href="/applicants/new">Create applicant page</a></p>
+                {{/user.getApplicant}}
+            </div>
+            <hr/>
+        </div>
+
+        <div>
+            <a href="/users/my-page/edit">Edit</a><br/><br/>
+            <form method="POST" action="/users/my-page/delete">
+                <button>Delete account</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

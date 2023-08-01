@@ -7,6 +7,13 @@
 <body>
     <div>
         <div>
+            <a href="/users/my-page">My page</a><span>&emsp;</span>
+            <a href="/vacancies">Vacancies</a><span>&emsp;</span>
+            <a href="/employers">Employers</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <hr/>
+        </div>
+        <div>
             <h4>Employers</h4>
             {{#employers}}
             <div>
@@ -17,7 +24,9 @@
             <hr/>
         </div>
         <div>
-            <a href="/employers/new">Add new</a>
+            {{^currentEmployer}}
+                <a href="/employers/new">Add new</a>
+            {{/currentEmployer}}
         </div>
     </div>
 </body>
