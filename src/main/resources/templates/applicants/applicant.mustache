@@ -7,6 +7,13 @@
 <body>
     <div>
         <div>
+            <a href="/users/my-page">My page</a><span>&emsp;</span>
+            <a href="/vacancies">Vacancies</a><span>&emsp;</span>
+            <a href="/employers">Employers</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <hr/>
+        </div>
+        <div>
             <h4>Applicant</h4>
             <p>First name: <span>{{applicant.getFirstName}}</span></p>
             <p>Last name: <span>{{applicant.getLastName}}</span></p>
@@ -37,6 +44,9 @@
         <div>
             {{#isCurrentApplicant}}
                 <p>Responded to vacancies:</p>
+                <div>
+                    <p><a href="/vacancies/for-current-applicant">Advice me vacancies</a></p>
+                </div>
                 {{#applicant.getResponses}}
                     <div>
                         <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>

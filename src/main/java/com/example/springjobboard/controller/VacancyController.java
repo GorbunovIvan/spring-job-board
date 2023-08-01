@@ -45,6 +45,20 @@ public class VacancyController {
         return "vacancies/vacancies";
     }
 
+    @GetMapping("/for-current-applicant")
+    public String getAllForCurrentApplicant(Model model) {
+
+        var currentApplicant = getCurrentApplicant();
+        if (currentApplicant == null) {
+            return "vacancies/vacancies";
+        }
+
+        model.addAttribute("filter", "suit your skills");
+        model.addAttribute("vacancies", vacancyRepository.getForApplicantBySkills(currentApplicant));
+
+        return "vacancies/vacancies";
+    }
+
     @GetMapping("/{id}")
     public String getById(@PathVariable Long id, Model model) {
 
