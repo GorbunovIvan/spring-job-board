@@ -23,13 +23,14 @@ public class User implements HasId<Long> {
     private Long id;
 
     @Column(name = "email", unique = true)
-    @NotNull
+    @NotNull(message = "Email should not be empty")
+    @NotEmpty(message = "Email should not be empty")
 //    @UniqueElements
-    @Email
+    @Email(message = "Email has invalid form")
     private String email;
 
     @Column(name = "name")
-    @NotEmpty
+    @NotEmpty(message = "Name should not be empty")
     private String name;
 
     @Column(name = "created_at")

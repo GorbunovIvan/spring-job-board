@@ -1,4 +1,4 @@
-package com.example.springjobboard.controller;
+package com.example.springjobboard.controller.util;
 
 import com.example.springjobboard.model.HasName;
 import lombok.AllArgsConstructor;

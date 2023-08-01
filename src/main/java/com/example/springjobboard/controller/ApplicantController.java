@@ -1,8 +1,9 @@
 package com.example.springjobboard.controller;
 
+import com.example.springjobboard.controller.util.ControllersUtil;
 import com.example.springjobboard.model.users.Applicant;
 import com.example.springjobboard.repository.ApplicantRepository;
-import com.example.springjobboard.utils.UsersUtil;
+import com.example.springjobboard.util.UsersUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ApplicantController {
         var optionalProperties = controllersUtil.getAllOptionalPropertiesWithValuesForEntity(applicant);
 
         model.addAttribute("applicant", applicant);
+        model.addAttribute("isCurrentApplicant", applicant.equals(getCurrentApplicant()));
         model.addAttribute("optionalProperties", optionalProperties);
 
         return "applicants/applicant";
@@ -41,6 +43,11 @@ public class ApplicantController {
 
     @GetMapping("/new")
     public String initCreation(Model model) {
+
+        var currentApplicant = getCurrentApplicant();
+        if (currentApplicant != null) {
+            return "redirect:/applicants/" + currentApplicant.getId();
+        }
 
         var applicant = new Applicant();
         var optionalProperties = controllersUtil.getAllOptionalPropertiesForEntity(applicant);
@@ -56,9 +63,12 @@ public class ApplicantController {
                                   BindingResult bindingResult) {
 
         var currentUser = usersUtil.getCurrentUser();
-
         if (currentUser == null) {
             throw new RuntimeException("You are not authorized");
+        }
+
+        if (currentUser.getApplicant() != null) {
+            return "redirect:/applicants/" + currentUser.getApplicant().getId();
         }
 
         if (bindingResult.hasErrors()) {
@@ -69,6 +79,7 @@ public class ApplicantController {
         }
 
         var applicantPersisted = applicantRepository.save(applicant);
+
         return "redirect:/applicants/" + applicantPersisted.getId();
     }
 
@@ -77,6 +88,11 @@ public class ApplicantController {
 
         var applicant = getApplicantByIdOrThrowException(id, true);
         var optionalProperties = controllersUtil.getAllOptionalPropertiesWithValuesForEntity(applicant);
+
+        var currentApplicant = getCurrentApplicant();
+        if (!currentApplicant.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to edit other's pages");
+        }
 
         model.addAttribute("applicant", applicant);
         model.addAttribute("optionalProperties", optionalProperties);
@@ -89,6 +105,11 @@ public class ApplicantController {
                                 @ModelAttribute @Valid Applicant applicant, BindingResult bindingResult) {
 
         var applicantPersisted = getApplicantByIdOrThrowException(id, true);
+
+        var currentApplicant = getCurrentApplicant();
+        if (!currentApplicant.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to edit other's pages");
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
@@ -110,6 +131,12 @@ public class ApplicantController {
 
     @DeleteMapping("/{id}")
     public String processDelete(@PathVariable Long id) {
+
+        var currentApplicant = getCurrentApplicant();
+        if (!currentApplicant.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to delete other's pages");
+        }
+
         var result = applicantRepository.deleteById(id);
         if (!result) {
             throw new EntityNotFoundException(String.format("Applicant with id '%d' is not found", id));
@@ -132,5 +159,10 @@ public class ApplicantController {
             throw new EntityNotFoundException(String.format("Applicant with id '%d' is not found", id));
         }
         return applicant;
+    }
+
+    @ModelAttribute("currentApplicant")
+    private Applicant getCurrentApplicant() {
+        return usersUtil.getCurrentApplicant();
     }
 }

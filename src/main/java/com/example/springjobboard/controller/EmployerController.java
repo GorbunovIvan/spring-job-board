@@ -1,8 +1,10 @@
 package com.example.springjobboard.controller;
 
+import com.example.springjobboard.controller.util.ControllersUtil;
 import com.example.springjobboard.model.jobs.Vacancy;
 import com.example.springjobboard.model.users.Employer;
 import com.example.springjobboard.repository.EmployerRepository;
+import com.example.springjobboard.util.UsersUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,22 +19,36 @@ import org.springframework.web.bind.annotation.*;
 public class EmployerController {
 
     private final EmployerRepository employerRepository;
+
+    private final UsersUtil usersUtil;
     private final ControllersUtil controllersUtil;
 
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("isCurrentApplicant", employerRepository.findAll());
         return "employers/employers";
     }
 
     @GetMapping("/{id}")
     public String getById(@PathVariable Long id, Model model) {
-        model.addAttribute("employer", employerRepository.findByIdEagerly(id, "vacancies"));
+
+        var employer = getEmployerByIdOrThrowException(id, true);
+
+        model.addAttribute("employer", employer);
+        model.addAttribute("isCurrentEmployer", employer.equals(getCurrentEmployer()));
+
         return "employers/employer";
     }
 
     @GetMapping("/new")
     public String initCreation(Model model) {
+
+        var currentEmployer = getCurrentEmployer();
+        if (currentEmployer != null) {
+            return "redirect:/employers/" + currentEmployer.getId();
+        }
+
         model.addAttribute("employer", new Employer());
         return "employers/createForm";
     }
@@ -40,19 +56,39 @@ public class EmployerController {
     @PostMapping
     public String processCreation(Model model, @ModelAttribute @Valid Employer employer,
                                   BindingResult bindingResult) {
+
+        var currentUser = usersUtil.getCurrentUser();
+        if (currentUser == null) {
+            throw new RuntimeException("You are not authorized");
+        }
+
+        if (currentUser.getEmployer() != null) {
+            return "redirect:/employers/" + currentUser.getEmployer().getId();
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
             model.addAttribute("employer", employer);
             return "employers/createForm";
         }
+
         var employerPersisted = employerRepository.save(employer);
+
         return "redirect:/employers/" + employerPersisted.getId();
     }
 
     @GetMapping("/{id}/edit")
     public String initUpdate(@PathVariable Long id, Model model) {
+
         var employer = getEmployerByIdOrThrowException(id, true);
+
+        var currentEmployer = getCurrentEmployer();
+        if (!currentEmployer.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to edit other's pages");
+        }
+
         model.addAttribute("employer", employer);
+
         return "employers/updateForm";
     }
 
@@ -61,6 +97,11 @@ public class EmployerController {
                                 @ModelAttribute @Valid Employer employer, BindingResult bindingResult) {
 
         var employerPersisted = getEmployerByIdOrThrowException(id);
+
+        var currentEmployer = getCurrentEmployer();
+        if (!currentEmployer.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to edit other's pages");
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
@@ -77,7 +118,14 @@ public class EmployerController {
 
     @PostMapping("/{id}/add-vacancy")
     public String processAddVacancy(@PathVariable Long id, @RequestParam("vacancy") Vacancy vacancy) {
+
         var employer = getEmployerByIdOrThrowException(id, true);
+
+        var currentEmployer = getCurrentEmployer();
+        if (!currentEmployer.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to edit other's pages");
+        }
+
         employer.addVacancy(vacancy);
         employerRepository.update(id, employer);
         return "redirect:/employers/" + id + "/edit";
@@ -85,6 +133,12 @@ public class EmployerController {
 
     @DeleteMapping("/{id}")
     public String processDelete(@PathVariable Long id) {
+
+        var currentEmployer = getCurrentEmployer();
+        if (!currentEmployer.getId().equals(id)) {
+            throw new RuntimeException("You have no permissions to delete other's pages");
+        }
+
         var result = employerRepository.deleteById(id);
         if (!result) {
             throw new EntityNotFoundException(String.format("employer with id '%d' is not found", id));
@@ -107,5 +161,10 @@ public class EmployerController {
             throw new EntityNotFoundException(String.format("employer with id '%d' is not found", id));
         }
         return employer;
+    }
+
+    @ModelAttribute("currentEmployer")
+    private Employer getCurrentEmployer() {
+        return usersUtil.getCurrentEmployer();
     }
 }

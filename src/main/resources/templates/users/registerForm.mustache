@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registering new user</title>
+</head>
+<body>
+    <div>
+
+        <h3>Registering new user</h3>
+
+        <div>
+            <form method="POST" action="/users/register">
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name" value="{{user.getName}}"/>
+                    <div>{{#errors}}{{#name}}<div style="color:red">{{.}}</div>{{/name}}{{/errors}}</div>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" value="{{user.getEmail}}"/>
+                    <div>{{#errors}}{{#email}}<div style="color:red">{{.}}</div>{{/email}}{{/errors}}</div>
+                </div>
+                <br/>
+                <div>
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

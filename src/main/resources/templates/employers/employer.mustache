@@ -14,16 +14,20 @@
         </div>
 
         <div>
-            <a href="/employers/{{{employer.getId}}}/edit">Edit</a>
-            <hr/>
+            {{#isCurrentEmployer}}
+                <a href="/employers/{{{employer.getId}}}/edit">Edit</a>
+                <hr/>
+            {{/isCurrentEmployer}}
         </div>
 
         <div>
             <p>Vacancies:</p>
             <div>
-                <b><a href="/vacancies/new">Add new vacancy</a></b>
-                <br/>
-                <br/>
+                {{#isCurrentEmployer}}
+                    <b><a href="/vacancies/new">Add new vacancy</a></b>
+                    <br/>
+                    <br/>
+                {{/isCurrentEmployer}}
             </div>
             {{#employer.getVacancies}}
                 <div>

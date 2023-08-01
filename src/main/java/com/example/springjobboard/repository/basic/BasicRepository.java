@@ -1,4 +1,4 @@
-package com.example.springjobboard.repository;
+package com.example.springjobboard.repository.basic;
 
 import com.example.springjobboard.model.HasId;
 import jakarta.validation.constraints.NotNull;

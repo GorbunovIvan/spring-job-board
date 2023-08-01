@@ -17,7 +17,9 @@
             <hr/>
         </div>
         <div>
-            <a href="/employers/new">Add new</a>
+            {{^currentEmployer}}
+                <a href="/employers/new">Add new</a>
+            {{/currentEmployer}}
         </div>
     </div>
 </body>

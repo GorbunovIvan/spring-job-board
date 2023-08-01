@@ -14,8 +14,10 @@
             <hr/>
         </div>
         <div>
-            <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
-            <hr/>
+            {{#isCurrentApplicant}}
+                <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
+                <hr/>
+            {{/isCurrentApplicant}}
         </div>
         <br/>
         <div>
@@ -33,13 +35,15 @@
             {{/optionalProperties}}
         </div>
         <div>
-            <p>Responded to vacancies:</p>
-            {{#applicant.getResponses}}
-                <div>
-                    <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>
-                    <br/>
-                </div>
-            {{/applicant.getResponses}}
+            {{#isCurrentApplicant}}
+                <p>Responded to vacancies:</p>
+                {{#applicant.getResponses}}
+                    <div>
+                        <a href="/vacancies/{{{getVacancy.getId}}}">{{getVacancy.getTitle}}</a>
+                        <br/>
+                    </div>
+                {{/applicant.getResponses}}
+            {{/isCurrentApplicant}}
         </div>
     </div>
 </body>
