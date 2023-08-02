@@ -13,13 +13,13 @@ public class UserRepository extends BasicRepositoryImpl<User, Long> {
     }
 
     @Transactional
-    public User findByIdEagerlyDeeply(long id) {
+    public User findByEmailEagerly(String email) {
         return getEntityManager().createQuery("FROM User user " +
-                    "LEFT JOIN FETCH user.applicant applicant " +
-                    "LEFT JOIN FETCH user.employer employer " +
-                    "LEFT JOIN FETCH applicant.skills " +
-                    "WHERE user.id = :id", User.class)
-                .setParameter("id", id)
+                        "LEFT JOIN FETCH user.applicant applicant " +
+                        "LEFT JOIN FETCH user.employer employer " +
+                        "LEFT JOIN FETCH applicant.skills " +
+                        "WHERE user.email = :email", User.class)
+                .setParameter("email", email)
                 .getResultStream()
                 .findAny()
                 .orElse(null);

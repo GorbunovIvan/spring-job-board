@@ -78,6 +78,8 @@ public class ApplicantController {
             return "applicants/createForm";
         }
 
+        applicant.setUser(currentUser);
+
         var applicantPersisted = applicantRepository.save(applicant);
 
         return "redirect:/applicants/" + applicantPersisted.getId();
@@ -129,7 +131,7 @@ public class ApplicantController {
         return "redirect:/applicants/" + id;
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String processDelete(@PathVariable Long id) {
 
         var currentApplicant = getCurrentApplicant();
