@@ -18,6 +18,7 @@ public class UserRepository extends BasicRepositoryImpl<User, Long> {
                         "LEFT JOIN FETCH user.applicant applicant " +
                         "LEFT JOIN FETCH user.employer employer " +
                         "LEFT JOIN FETCH applicant.skills " +
+                        "LEFT JOIN FETCH employer.vacancies " +
                         "WHERE user.email = :email", User.class)
                 .setParameter("email", email)
                 .getResultStream()
