@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registering new user</title>
+    <title>Registration</title>
 </head>
 <body>
     <div>
 
         <div>
-            <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
             <a href="/applicants">Applicants</a><span>&emsp;</span>
             <hr/>
         </div>
 
-        <h3>Registering new user</h3>
+        <h3>Registration</h3>
 
         <div>
-            <form method="POST" action="/users/register">
+            <form method="POST" action="/auth/register">
                 <div>
                     <label for="name">Name</label>
                     <input id="name" name="name" value="{{user.getName}}"/>
@@ -29,11 +28,20 @@
                     <input id="email" name="email" value="{{user.getEmail}}"/>
                     <div>{{#errors}}{{#email}}<div style="color:red">{{.}}</div>{{/email}}{{/errors}}</div>
                 </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" value="{{user.getPassword}}"/>
+                    <div>{{#errors}}{{#password}}<div style="color:red">{{.}}</div>{{/password}}{{/errors}}</div>
+                </div>
                 <br/>
                 <div>
                     <button type="submit">Register</button>
                 </div>
             </form>
+        </div>
+
+        <div>
+            <p>Or you can <a href="/auth/login">log in</a></p>
         </div>
 
     </div>

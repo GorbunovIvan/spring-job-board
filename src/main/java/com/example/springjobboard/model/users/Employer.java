@@ -25,7 +25,6 @@ public class Employer implements HasId<Long> {
     @Column(name = "name", unique = true)
     @NotNull
     @Size(min = 2, max = 99, message = "Name should be in range from 2 to 99 characters")
-//    @UniqueElements
     private String name = "";
 
     @OneToOne

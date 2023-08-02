@@ -29,6 +29,11 @@
                     <input id="email" name="email" value="{{user.getEmail}}"/>
                     <div>{{#errors}}{{#email}}<div style="color:red">{{.}}</div>{{/email}}{{/errors}}</div>
                 </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" value="{{user.getPassword}}"/>
+                    <div>{{#errors}}{{#password}}<div style="color:red">{{.}}</div>{{/password}}{{/errors}}</div>
+                </div>
                 <br/>
                 <div>
                     <button type="submit">Update user</button>

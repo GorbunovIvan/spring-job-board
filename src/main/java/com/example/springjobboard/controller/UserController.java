@@ -6,6 +6,7 @@ import com.example.springjobboard.repository.UserRepository;
 import com.example.springjobboard.util.UsersUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ public class UserController {
 
     private final ControllersUtil controllersUtil;
     private final UsersUtil usersUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/my-page")
     public String getCurrentUserPage(Model model) {
@@ -32,27 +34,6 @@ public class UserController {
         model.addAttribute("user", user);
 
         return "users/user";
-    }
-
-    @GetMapping("/register")
-    public String initCreation(Model model) {
-        model.addAttribute("user", new User());
-        return "users/registerForm";
-    }
-
-    @PostMapping("/register")
-    public String processRegistration(Model model, @ModelAttribute @Valid User user,
-                                  BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
-            model.addAttribute("user", user);
-            return "users/registerForm";
-        }
-
-        var userPersisted = userRepository.save(user);
-
-        return "redirect:/users/" + userPersisted.getId();
     }
 
     @GetMapping("/my-page/edit")
@@ -85,6 +66,10 @@ public class UserController {
 
         userPersisted.setName(user.getName());
         userPersisted.setEmail(user.getEmail());
+
+        if (!user.getPassword().equals(userPersisted.getPassword())) {
+            userPersisted.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
 
         userRepository.update(userPersisted.getId(), userPersisted);
 

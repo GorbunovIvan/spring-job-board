@@ -72,6 +72,8 @@ public class EmployerController {
             return "employers/createForm";
         }
 
+        employer.setUser(currentUser);
+
         var employerPersisted = employerRepository.save(employer);
 
         return "redirect:/employers/" + employerPersisted.getId();
@@ -131,7 +133,7 @@ public class EmployerController {
         return "redirect:/employers/" + id + "/edit";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String processDelete(@PathVariable Long id) {
 
         var currentEmployer = getCurrentEmployer();
