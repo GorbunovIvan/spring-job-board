@@ -3,6 +3,7 @@ package com.example.springjobboard.controller;
 import com.example.springjobboard.controller.util.ControllersUtil;
 import com.example.springjobboard.model.jobs.Vacancy;
 import com.example.springjobboard.model.users.Employer;
+import com.example.springjobboard.model.users.User;
 import com.example.springjobboard.repository.EmployerRepository;
 import com.example.springjobboard.util.UsersUtil;
 import jakarta.persistence.EntityNotFoundException;
@@ -44,7 +45,12 @@ public class EmployerController {
     @GetMapping("/new")
     public String initCreation(Model model) {
 
-        var currentEmployer = getCurrentEmployer();
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
+        var currentEmployer = currentUser.getEmployer();
         if (currentEmployer != null) {
             return "redirect:/employers/" + currentEmployer.getId();
         }
@@ -57,10 +63,7 @@ public class EmployerController {
     public String processCreation(Model model, @ModelAttribute @Valid Employer employer,
                                   BindingResult bindingResult) {
 
-        var currentUser = usersUtil.getCurrentUser();
-        if (currentUser == null) {
-            throw new RuntimeException("You are not authorized");
-        }
+        var currentUser = getCurrentUser();
 
         if (currentUser.getEmployer() != null) {
             return "redirect:/employers/" + currentUser.getEmployer().getId();
@@ -82,9 +85,14 @@ public class EmployerController {
     @GetMapping("/{id}/edit")
     public String initUpdate(@PathVariable Long id, Model model) {
 
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
         var employer = getEmployerByIdOrThrowException(id, true);
 
-        var currentEmployer = getCurrentEmployer();
+        var currentEmployer = currentUser.getEmployer();
         if (!currentEmployer.getId().equals(id)) {
             throw new RuntimeException("You have no permissions to edit other's pages");
         }
@@ -163,6 +171,11 @@ public class EmployerController {
             throw new EntityNotFoundException(String.format("employer with id '%d' is not found", id));
         }
         return employer;
+    }
+
+    @ModelAttribute("currentUser")
+    private User getCurrentUser() {
+        return usersUtil.getCurrentUser();
     }
 
     @ModelAttribute("currentEmployer")

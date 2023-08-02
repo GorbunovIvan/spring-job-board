@@ -2,6 +2,7 @@ package com.example.springjobboard.controller;
 
 import com.example.springjobboard.controller.util.ControllersUtil;
 import com.example.springjobboard.model.users.Applicant;
+import com.example.springjobboard.model.users.User;
 import com.example.springjobboard.repository.ApplicantRepository;
 import com.example.springjobboard.util.UsersUtil;
 import jakarta.persistence.EntityNotFoundException;
@@ -44,7 +45,12 @@ public class ApplicantController {
     @GetMapping("/new")
     public String initCreation(Model model) {
 
-        var currentApplicant = getCurrentApplicant();
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
+        var currentApplicant = currentUser.getApplicant();
         if (currentApplicant != null) {
             return "redirect:/applicants/" + currentApplicant.getId();
         }
@@ -62,10 +68,7 @@ public class ApplicantController {
     public String processCreation(Model model, @ModelAttribute @Valid Applicant applicant,
                                   BindingResult bindingResult) {
 
-        var currentUser = usersUtil.getCurrentUser();
-        if (currentUser == null) {
-            throw new RuntimeException("You are not authorized");
-        }
+        var currentUser = getCurrentUser();
 
         if (currentUser.getApplicant() != null) {
             return "redirect:/applicants/" + currentUser.getApplicant().getId();
@@ -88,10 +91,15 @@ public class ApplicantController {
     @GetMapping("/{id}/edit")
     public String initUpdate(@PathVariable Long id, Model model) {
 
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
         var applicant = getApplicantByIdOrThrowException(id, true);
         var optionalProperties = controllersUtil.getAllOptionalPropertiesWithValuesForEntity(applicant);
 
-        var currentApplicant = getCurrentApplicant();
+        var currentApplicant = currentUser.getApplicant();
         if (!currentApplicant.getId().equals(id)) {
             throw new RuntimeException("You have no permissions to edit other's pages");
         }
@@ -161,6 +169,11 @@ public class ApplicantController {
             throw new EntityNotFoundException(String.format("Applicant with id '%d' is not found", id));
         }
         return applicant;
+    }
+
+    @ModelAttribute("currentUser")
+    private User getCurrentUser() {
+        return usersUtil.getCurrentUser();
     }
 
     @ModelAttribute("currentApplicant")

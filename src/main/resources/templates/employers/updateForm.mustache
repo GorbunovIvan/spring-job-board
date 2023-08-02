@@ -12,6 +12,17 @@
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
             <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <br/>
+            {{#currentUser}}
+                <br/>
+                <form method="POST" action="/auth/logout">
+                    <button type="submit">Log out</button>
+                </form>
+            {{/currentUser}}
+            {{^currentUser}}
+                <a href="/auth/login">Login</a><span>&ensp;</span>
+                <a href="/auth/register">Register</a>
+            {{/currentUser}}
             <hr/>
         </div>
 

@@ -28,7 +28,7 @@ public class UserController {
 
         var user = getCurrentUser();
         if (user == null) {
-            throw new RuntimeException("You are not authorized");
+            return "redirect:/auth/login";
         }
 
         model.addAttribute("user", user);
@@ -41,7 +41,7 @@ public class UserController {
 
         var user = getCurrentUser();
         if (user == null) {
-            throw new RuntimeException("You are not authorized");
+            return "redirect:/auth/login";
         }
 
         model.addAttribute("user", user);
@@ -54,9 +54,6 @@ public class UserController {
                                 @ModelAttribute @Valid User user, BindingResult bindingResult) {
 
         var userPersisted = getCurrentUser();
-        if (user == null) {
-            throw new RuntimeException("You are not authorized");
-        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", controllersUtil.bindingResultErrorsToMap(bindingResult));
@@ -80,9 +77,6 @@ public class UserController {
     public String processDelete() {
 
         var user = getCurrentUser();
-        if (user == null) {
-            throw new RuntimeException("You are not authorized");
-        }
 
         var result = userRepository.delete(user);
         if (!result) {

@@ -5,6 +5,7 @@ import com.example.springjobboard.model.jobs.ResponseToVacancy;
 import com.example.springjobboard.model.jobs.Vacancy;
 import com.example.springjobboard.model.users.Applicant;
 import com.example.springjobboard.model.users.Employer;
+import com.example.springjobboard.model.users.User;
 import com.example.springjobboard.repository.EmployerRepository;
 import com.example.springjobboard.repository.VacancyRepository;
 import com.example.springjobboard.util.UsersUtil;
@@ -81,7 +82,12 @@ public class VacancyController {
     @GetMapping("/new")
     public String initCreation(Model model) {
 
-        if (getCurrentEmployer() == null) {
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
+        if (currentUser.getEmployer() == null) {
             return "redirect:/employers/new";
         }
 
@@ -98,14 +104,10 @@ public class VacancyController {
     public String processCreation(Model model,
                                   @ModelAttribute @Valid Vacancy vacancy, BindingResult bindingResult) {
 
+        var currentEmployer = getCurrentEmployer();
+
         if (getCurrentEmployer() == null) {
             return "redirect:/employers/new";
-        }
-
-        var currentEmployer = usersUtil.getCurrentEmployer();
-
-        if (currentEmployer == null) {
-            throw new RuntimeException("You are not authorized as employer");
         }
 
         if (bindingResult.hasErrors()) {
@@ -147,7 +149,6 @@ public class VacancyController {
                                 @ModelAttribute @Valid Vacancy vacancy, BindingResult bindingResult) {
 
         var currentEmployer = getCurrentEmployer();
-
         if (currentEmployer == null) {
             return "redirect:/employers/new";
         }
@@ -194,14 +195,19 @@ public class VacancyController {
     @GetMapping("/{id}/respond")
     public String respond(@PathVariable Long id) {
 
-        var vacancy = getVacancyByIdOrThrowException(id, true);
-
-        var currentApplicant = getCurrentApplicant();
-        if (currentApplicant == null) {
-            throw new RuntimeException("You are not authorized as applicant");
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
         }
 
-        if (vacancy.getEmployer().equals(getCurrentEmployer())) {
+        var currentApplicant = currentUser.getApplicant();
+        if (currentApplicant == null) {
+            return "redirect:/applicants/new";
+        }
+
+        var vacancy = getVacancyByIdOrThrowException(id, true);
+
+        if (vacancy.getEmployer().equals(currentUser.getEmployer())) {
             throw new RuntimeException("You can not respond to your own vacancy");
         }
 
@@ -231,6 +237,11 @@ public class VacancyController {
             throw new EntityNotFoundException(String.format("vacancy with id '%d' is not found", id));
         }
         return vacancy;
+    }
+
+    @ModelAttribute("currentUser")
+    private User getCurrentUser() {
+        return usersUtil.getCurrentUser();
     }
 
     @ModelAttribute("currentEmployer")
