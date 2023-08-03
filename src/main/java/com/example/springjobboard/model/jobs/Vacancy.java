@@ -16,7 +16,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "vacancies")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "title", "employer" })
 @ToString
@@ -42,7 +42,6 @@ public class Vacancy implements HasId<Long>, HasCollections {
 
     @ManyToOne
     @JoinColumn(name = "employer_id")
-//    @NotNull
     private Employer employer;
 
     @ElementCollection(targetClass = JobType.class)

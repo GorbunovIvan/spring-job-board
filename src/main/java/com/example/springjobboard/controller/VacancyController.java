@@ -55,7 +55,7 @@ public class VacancyController {
         }
 
         model.addAttribute("filter", "suit your skills");
-        model.addAttribute("vacancies", vacancyRepository.getForApplicantBySkills(currentApplicant));
+        model.addAttribute("vacancies", vacancyRepository.findAllForApplicantBySkills(currentApplicant));
 
         return "vacancies/vacancies";
     }

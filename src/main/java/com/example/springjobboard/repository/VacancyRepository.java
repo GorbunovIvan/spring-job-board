@@ -18,7 +18,7 @@ public class VacancyRepository extends BasicRepositoryImpl<Vacancy, Long> {
     }
 
     @Transactional
-    public Set<Vacancy> getForApplicantBySkills(Applicant currentApplicant) {
+    public Set<Vacancy> findAllForApplicantBySkills(Applicant currentApplicant) {
 
         if (currentApplicant.getSkills().isEmpty()) {
             return new HashSet<>();
