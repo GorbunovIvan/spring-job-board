@@ -14,10 +14,6 @@ public class SkillConverter implements Converter<String, Skill> {
 
     @Override
     public Skill convert(String source) {
-        Skill skill = skillRepository.findByField("name", source);
-//        if (skill == null) {
-//            skill = skillRepository.save(new Skill(source));
-//        }
-        return skill;
+        return skillRepository.findByField("name", source);
     }
 }

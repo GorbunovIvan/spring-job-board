@@ -63,6 +63,16 @@ class JobCategoryRepositoryTest {
     }
 
     @Test
+    void testFindByField() {
+
+        for (var jobCategoryExpected : jobCategoriesExpected) {
+            assertEquals(jobCategoryExpected, jobCategoryRepository.findByField("name", jobCategoryExpected.getName()));
+        }
+
+        assertNull(jobCategoryRepository.findByField("name", ""));
+    }
+
+    @Test
     void testSave() {
         var newJobCategory = new JobCategory("new job category");
         assertEquals(newJobCategory, jobCategoryRepository.save(newJobCategory));

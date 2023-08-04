@@ -63,6 +63,16 @@ class SkillRepositoryTest {
     }
 
     @Test
+    void testFindByField() {
+
+        for (var jobCategoryExpected : skillsExpected) {
+            assertEquals(jobCategoryExpected, skillRepository.findByField("name", jobCategoryExpected.getName()));
+        }
+
+        assertNull(skillRepository.findByField("name", ""));
+    }
+
+    @Test
     void testSave() {
         var newSkill = new Skill("new skill");
         assertEquals(newSkill, skillRepository.save(newSkill));

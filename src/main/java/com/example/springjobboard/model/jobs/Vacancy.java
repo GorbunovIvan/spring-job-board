@@ -88,22 +88,6 @@ public class Vacancy implements HasId<Long>, HasCollections {
         }
     }
 
-    public void addType(JobType type) {
-        getTypes().add(type);
-    }
-
-    public void addMode(WorkMode mode) {
-        getModes().add(mode);
-    }
-
-    public void addSkill(Skill skill) {
-        getSkills().add(skill);
-    }
-
-    public void addCategory(JobCategory category) {
-        getCategories().add(category);
-    }
-
     public void addResponse(ResponseToVacancy response) {
         getResponses().add(response);
     }

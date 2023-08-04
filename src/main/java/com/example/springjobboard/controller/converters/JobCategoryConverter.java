@@ -14,10 +14,6 @@ public class JobCategoryConverter implements Converter<String, JobCategory> {
 
     @Override
     public JobCategory convert(String source) {
-        JobCategory jobCategory = jobCategoryRepository.findByField("name", source);
-//        if (jobCategory == null) {
-//            jobCategory = jobCategoryRepository.save(new JobCategory(source));
-//        }
-        return jobCategory;
+        return jobCategoryRepository.findByField("name", source);
     }
 }
