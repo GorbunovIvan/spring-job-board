@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,10 +33,9 @@ class VacancyRepositoryTest {
     @Transactional
     void setUp() {
 
-        vacanciesExpected = entityManager.createQuery("FROM Vacancy v " +
+        vacanciesExpected = new HashSet<>(entityManager.createQuery("FROM Vacancy v " +
                         "LEFT JOIN FETCH v.skills", Vacancy.class)
-                .getResultStream()
-                .collect(Collectors.toSet());
+                .getResultList());
 
         assertTrue(vacanciesExpected.size() > 1);
     }
@@ -51,10 +49,9 @@ class VacancyRepositoryTest {
     @Disabled("test is correct, but code is not")
     void testFindAllForApplicantBySkills() {
 
-        var applicants = entityManager.createQuery("FROM Applicant a " +
+        var applicants = new HashSet<>(entityManager.createQuery("FROM Applicant a " +
                         "LEFT JOIN FETCH a.skills", Applicant.class)
-                .getResultStream()
-                .collect(Collectors.toSet());
+                .getResultList());
 
         for (var applicant : applicants) {
 

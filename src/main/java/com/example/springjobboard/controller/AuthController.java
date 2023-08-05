@@ -50,7 +50,7 @@ public class AuthController {
         user.setIsActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        var userPersisted = userRepository.save(user);
+        userRepository.save(user);
 
         return "redirect:/users/my-page";
     }

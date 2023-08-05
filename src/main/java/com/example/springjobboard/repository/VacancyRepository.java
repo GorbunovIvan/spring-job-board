@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class VacancyRepository extends BasicRepositoryImpl<Vacancy, Long> {
@@ -24,13 +23,12 @@ public class VacancyRepository extends BasicRepositoryImpl<Vacancy, Long> {
             return new HashSet<>();
         }
 
-        return getEntityManager().createQuery("FROM Vacancy v " +
+        return new HashSet<>(getEntityManager().createQuery("FROM Vacancy v " +
                         "JOIN v.skills skills " +
                         "WHERE NOT v.employer = :employer " +
                         "AND skills IN :skills", Vacancy.class)
                 .setParameter("employer", currentApplicant.getUser().getEmployer())
                 .setParameter("skills", currentApplicant.getSkills())
-                .getResultStream()
-                .collect(Collectors.toSet());
+                .getResultList());
     }
 }

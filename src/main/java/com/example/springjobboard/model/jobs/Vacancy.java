@@ -47,20 +47,14 @@ public class Vacancy implements HasId<Long>, HasCollections {
     @ElementCollection(targetClass = JobType.class)
     @CollectionTable(name = "vacancies_types", joinColumns = @JoinColumn(name = "vacancy_id"))
     @Enumerated(EnumType.STRING)
+    @ToString.Exclude
     private Set<JobType> types = new HashSet<>();
 
     @ElementCollection(targetClass = WorkMode.class)
     @CollectionTable(name = "vacancies_modes", joinColumns = @JoinColumn(name = "vacancy_id"))
     @Enumerated(EnumType.STRING)
-    private Set<WorkMode> modes = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "skills_vacancies",
-            joinColumns = @JoinColumn(name = "vacancy_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
     @ToString.Exclude
-    private Set<Skill> skills = new HashSet<>();
+    private Set<WorkMode> modes = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "vacancies_categories",
@@ -69,6 +63,14 @@ public class Vacancy implements HasId<Long>, HasCollections {
     )
     @ToString.Exclude
     private Set<JobCategory> categories = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "skills_vacancies",
+            joinColumns = @JoinColumn(name = "vacancy_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    @ToString.Exclude
+    private Set<Skill> skills = new HashSet<>();
 
     @OneToMany(mappedBy = "vacancy", cascade = { CascadeType.ALL })
     @ToString.Exclude

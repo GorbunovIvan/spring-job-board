@@ -75,7 +75,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
                         tablesInQuery +
                         "WHERE obj.id = :id", clazz)
                 .setParameter("id", id)
-                .getResultStream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }
@@ -86,7 +86,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
         return entityManager.createQuery("FROM " + getClassName() + " " +
                         "WHERE " + fieldName + " = :fieldName", clazz)
                 .setParameter("fieldName", value)
-                .getResultStream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }
