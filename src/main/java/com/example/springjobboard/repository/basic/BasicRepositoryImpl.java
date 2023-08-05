@@ -4,7 +4,6 @@ import com.example.springjobboard.model.HasId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 @Repository
 @Scope("prototype")
 @Getter
-@Slf4j
 public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicRepository<T, ID> {
 
     @PersistenceContext
@@ -77,7 +75,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
                         tablesInQuery +
                         "WHERE obj.id = :id", clazz)
                 .setParameter("id", id)
-                .getResultStream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }
@@ -88,7 +86,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
         return entityManager.createQuery("FROM " + getClassName() + " " +
                         "WHERE " + fieldName + " = :fieldName", clazz)
                 .setParameter("fieldName", value)
-                .getResultStream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }

@@ -13,6 +13,21 @@ public class UserRepository extends BasicRepositoryImpl<User, Long> {
     }
 
     @Transactional
+    public User findByIdEagerly(Long id) {
+        return getEntityManager().createQuery("FROM User user " +
+                        "LEFT JOIN FETCH user.applicant applicant " +
+                        "LEFT JOIN FETCH user.employer employer " +
+                        "LEFT JOIN FETCH applicant.skills " +
+                        "LEFT JOIN FETCH employer.vacancies " +
+                        "WHERE user.id = :id", User.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findAny()
+                .orElse(null);
+    }
+
+    @Transactional
     public User findByEmailEagerly(String email) {
         return getEntityManager().createQuery("FROM User user " +
                         "LEFT JOIN FETCH user.applicant applicant " +
@@ -21,7 +36,8 @@ public class UserRepository extends BasicRepositoryImpl<User, Long> {
                         "LEFT JOIN FETCH employer.vacancies " +
                         "WHERE user.email = :email", User.class)
                 .setParameter("email", email)
-                .getResultStream()
+                .getResultList()
+                .stream()
                 .findAny()
                 .orElse(null);
     }

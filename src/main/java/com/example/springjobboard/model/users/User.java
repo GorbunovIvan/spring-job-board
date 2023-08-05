@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "email" })
 @ToString

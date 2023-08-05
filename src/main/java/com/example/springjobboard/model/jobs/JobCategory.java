@@ -11,7 +11,7 @@ import lombok.*;
 @Table(name = "job-categories")
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "name")
 @ToString
 public class JobCategory implements HasId<Integer>, HasName {
 

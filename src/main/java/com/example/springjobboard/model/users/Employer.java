@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "employers")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "name" })
 @ToString

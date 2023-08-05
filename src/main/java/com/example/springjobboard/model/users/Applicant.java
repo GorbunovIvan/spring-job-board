@@ -13,7 +13,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "applicants")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "user" })
 @ToString

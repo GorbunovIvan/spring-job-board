@@ -151,11 +151,7 @@ public class ApplicantController {
         if (!result) {
             throw new EntityNotFoundException(String.format("Applicant with id '%d' is not found", id));
         }
-        return "redirect:/applicants";
-    }
-
-    private Applicant getApplicantByIdOrThrowException(Long id) {
-        return getApplicantByIdOrThrowException(id, false);
+        return "redirect:/users/my-page";
     }
 
     private Applicant getApplicantByIdOrThrowException(Long id, boolean eagerly) {

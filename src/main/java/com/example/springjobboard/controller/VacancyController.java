@@ -49,13 +49,18 @@ public class VacancyController {
     @GetMapping("/for-current-applicant")
     public String getAllForCurrentApplicant(Model model) {
 
-        var currentApplicant = getCurrentApplicant();
-        if (currentApplicant == null) {
-            return "vacancies/vacancies";
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
         }
 
-        model.addAttribute("filter", "suit your skills");
-        model.addAttribute("vacancies", vacancyRepository.getForApplicantBySkills(currentApplicant));
+        var currentApplicant = currentUser.getApplicant();
+        if (currentApplicant == null) {
+            return "redirect:/applicants/new";
+        }
+
+        model.addAttribute("filter", "Suit your skills");
+        model.addAttribute("vacancies", vacancyRepository.findAllForApplicantBySkills(currentApplicant));
 
         return "vacancies/vacancies";
     }
@@ -127,7 +132,12 @@ public class VacancyController {
     @GetMapping("/{id}/edit")
     public String initUpdate(@PathVariable Long id, Model model) {
 
-        if (getCurrentEmployer() == null) {
+        var currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/auth/login";
+        }
+
+        if (currentUser.getEmployer() == null) {
             return "redirect:/employers/new";
         }
 
@@ -220,10 +230,6 @@ public class VacancyController {
         vacancyRepository.update(id, vacancy);
 
         return "redirect:/vacancies/" + id;
-    }
-
-    private Vacancy getVacancyByIdOrThrowException(Long id) {
-        return getVacancyByIdOrThrowException(id, false);
     }
 
     private Vacancy getVacancyByIdOrThrowException(Long id, boolean eagerly) {

@@ -1,7 +1,6 @@
 package com.example.springjobboard.controller;
 
 import com.example.springjobboard.controller.util.ControllersUtil;
-import com.example.springjobboard.model.jobs.Vacancy;
 import com.example.springjobboard.model.users.Employer;
 import com.example.springjobboard.model.users.User;
 import com.example.springjobboard.repository.EmployerRepository;
@@ -126,20 +125,20 @@ public class EmployerController {
         return "redirect:/employers/" + id;
     }
 
-    @PostMapping("/{id}/add-vacancy")
-    public String processAddVacancy(@PathVariable Long id, @RequestParam("vacancy") Vacancy vacancy) {
-
-        var employer = getEmployerByIdOrThrowException(id, true);
-
-        var currentEmployer = getCurrentEmployer();
-        if (!currentEmployer.getId().equals(id)) {
-            throw new RuntimeException("You have no permissions to edit other's pages");
-        }
-
-        employer.addVacancy(vacancy);
-        employerRepository.update(id, employer);
-        return "redirect:/employers/" + id + "/edit";
-    }
+//    @PostMapping("/{id}/add-vacancy")
+//    public String processAddVacancy(@PathVariable Long id, @RequestParam("vacancy") Vacancy vacancy) {
+//
+//        var employer = getEmployerByIdOrThrowException(id, true);
+//
+//        var currentEmployer = getCurrentEmployer();
+//        if (!currentEmployer.getId().equals(id)) {
+//            throw new RuntimeException("You have no permissions to edit other's pages");
+//        }
+//
+//        employer.addVacancy(vacancy);
+//        employerRepository.update(id, employer);
+//        return "redirect:/employers/" + id + "/edit";
+//    }
 
     @PostMapping("/{id}/delete")
     public String processDelete(@PathVariable Long id) {
@@ -153,7 +152,7 @@ public class EmployerController {
         if (!result) {
             throw new EntityNotFoundException(String.format("employer with id '%d' is not found", id));
         }
-        return "redirect:/employers";
+        return "redirect:/users/my-page";
     }
 
     private Employer getEmployerByIdOrThrowException(Long id) {

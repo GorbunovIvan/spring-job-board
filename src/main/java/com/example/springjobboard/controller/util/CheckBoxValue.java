@@ -1,15 +1,13 @@
 package com.example.springjobboard.controller.util;
 
 import com.example.springjobboard.model.HasName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter @Setter
+@EqualsAndHashCode(of = "object")
 @ToString
-class CheckBoxValue<T extends HasName> {
+public class CheckBoxValue<T extends HasName> {
 
     private T object;
     private boolean isChecked;

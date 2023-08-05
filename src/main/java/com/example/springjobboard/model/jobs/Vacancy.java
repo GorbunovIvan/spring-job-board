@@ -16,7 +16,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "vacancies")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "title", "employer" })
 @ToString
@@ -42,26 +42,19 @@ public class Vacancy implements HasId<Long>, HasCollections {
 
     @ManyToOne
     @JoinColumn(name = "employer_id")
-//    @NotNull
     private Employer employer;
 
     @ElementCollection(targetClass = JobType.class)
     @CollectionTable(name = "vacancies_types", joinColumns = @JoinColumn(name = "vacancy_id"))
     @Enumerated(EnumType.STRING)
+    @ToString.Exclude
     private Set<JobType> types = new HashSet<>();
 
     @ElementCollection(targetClass = WorkMode.class)
     @CollectionTable(name = "vacancies_modes", joinColumns = @JoinColumn(name = "vacancy_id"))
     @Enumerated(EnumType.STRING)
-    private Set<WorkMode> modes = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "skills_vacancies",
-            joinColumns = @JoinColumn(name = "vacancy_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
     @ToString.Exclude
-    private Set<Skill> skills = new HashSet<>();
+    private Set<WorkMode> modes = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "vacancies_categories",
@@ -70,6 +63,14 @@ public class Vacancy implements HasId<Long>, HasCollections {
     )
     @ToString.Exclude
     private Set<JobCategory> categories = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "skills_vacancies",
+            joinColumns = @JoinColumn(name = "vacancy_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    @ToString.Exclude
+    private Set<Skill> skills = new HashSet<>();
 
     @OneToMany(mappedBy = "vacancy", cascade = { CascadeType.ALL })
     @ToString.Exclude
@@ -87,22 +88,6 @@ public class Vacancy implements HasId<Long>, HasCollections {
         if (status == null) {
             status = VacancyStatus.OPENED;
         }
-    }
-
-    public void addType(JobType type) {
-        getTypes().add(type);
-    }
-
-    public void addMode(WorkMode mode) {
-        getModes().add(mode);
-    }
-
-    public void addSkill(Skill skill) {
-        getSkills().add(skill);
-    }
-
-    public void addCategory(JobCategory category) {
-        getCategories().add(category);
     }
 
     public void addResponse(ResponseToVacancy response) {
