@@ -26,7 +26,6 @@ public class EmployerController {
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("employers", employerRepository.findAll());
-        model.addAttribute("isCurrentApplicant", employerRepository.findAll());
         return "employers/employers";
     }
 

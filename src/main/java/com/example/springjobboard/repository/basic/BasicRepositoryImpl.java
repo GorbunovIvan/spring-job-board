@@ -50,15 +50,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
     @Override
     @Transactional
     public T findByIdEagerly(ID id) {
-
-        var fields = Arrays.stream(getClazz().getDeclaredFields())
-                .filter(f -> Collection.class.isAssignableFrom(f.getType()))
-                .filter(f -> f.isAnnotationPresent(OneToMany.class)
-                            || f.isAnnotationPresent(ManyToMany.class)
-                            || f.isAnnotationPresent(CollectionTable.class))
-                .map(Field::getName)
-                .toArray(String[]::new);
-
+        var fields = getCollectionsOfEntity();
         return findByIdEagerly(id, fields);
     }
 
@@ -125,5 +117,16 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
         } else {
             return false;
         }
+    }
+
+    protected String[] getCollectionsOfEntity() {
+
+        return Arrays.stream(getClazz().getDeclaredFields())
+                .filter(f -> Collection.class.isAssignableFrom(f.getType()))
+                .filter(f -> f.isAnnotationPresent(OneToMany.class)
+                        || f.isAnnotationPresent(ManyToMany.class)
+                        || f.isAnnotationPresent(CollectionTable.class))
+                .map(Field::getName)
+                .toArray(String[]::new);
     }
 }
