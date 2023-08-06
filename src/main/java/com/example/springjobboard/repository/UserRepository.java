@@ -14,30 +14,29 @@ public class UserRepository extends BasicRepositoryImpl<User, Long> {
 
     @Transactional
     public User findByIdEagerly(Long id) {
-        return getEntityManager().createQuery("FROM User user " +
-                        "LEFT JOIN FETCH user.applicant applicant " +
-                        "LEFT JOIN FETCH user.employer employer " +
-                        "LEFT JOIN FETCH applicant.skills " +
-                        "LEFT JOIN FETCH employer.vacancies " +
-                        "WHERE user.id = :id", User.class)
+        return getEntityManager().createQuery("FROM User users " +
+                        "LEFT JOIN FETCH users.applicant applicants " +
+                        "LEFT JOIN FETCH users.employer employers " +
+                        "LEFT JOIN FETCH applicants.skills " +
+                        "LEFT JOIN FETCH employers.vacancies " +
+                        "WHERE users.id = :id", User.class)
                 .setParameter("id", id)
-                .getResultList()
-                .stream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }
 
     @Transactional
     public User findByEmailEagerly(String email) {
-        return getEntityManager().createQuery("FROM User user " +
-                        "LEFT JOIN FETCH user.applicant applicant " +
-                        "LEFT JOIN FETCH user.employer employer " +
-                        "LEFT JOIN FETCH applicant.skills " +
-                        "LEFT JOIN FETCH employer.vacancies " +
-                        "WHERE user.email = :email", User.class)
+        return getEntityManager().createQuery("FROM User users " +
+                        "LEFT JOIN FETCH users.applicant applicants " +
+                        "LEFT JOIN FETCH users.employer employers " +
+                        "LEFT JOIN FETCH users.roles roles " +
+                        "LEFT JOIN FETCH applicants.skills " +
+                        "LEFT JOIN FETCH employers.vacancies " +
+                        "WHERE users.email = :email", User.class)
                 .setParameter("email", email)
-                .getResultList()
-                .stream()
+                .getResultList().stream()
                 .findAny()
                 .orElse(null);
     }
