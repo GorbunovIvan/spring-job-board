@@ -19,6 +19,7 @@ public class EmployerRepository extends BasicRepositoryImpl<Employer, Long> {
     @Transactional
     public Set<Employer> findAll() {
         return getEntityManager().createQuery("FROM " + getClassName() + " employers " +
+                        "LEFT JOIN FETCH employers.vacancies vacancies " +
                         "LEFT JOIN FETCH employers.user users " +
                         "LEFT JOIN FETCH users.applicant " +
                         "LEFT JOIN FETCH users.employer " +
