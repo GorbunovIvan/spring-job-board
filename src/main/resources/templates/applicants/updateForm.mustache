@@ -7,11 +7,11 @@
 <body>
     <div>
 
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
-            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a>
             <br/>
             {{#currentUser}}
                 <br/>
@@ -28,7 +28,7 @@
 
         <h3>Editing applicant - '{{applicant.getFullName}}'</h3>
 
-        <div>
+        <div id="form">
             <form method="POST" action="/applicants/{{{applicant.getId}}}">
                 <div>
                     <label for="firstName">First name</label>
@@ -46,7 +46,7 @@
                     <div>{{#errors}}{{#description}}<div style="color:red">{{.}}</div>{{/description}}{{/errors}}</div>
                 </div>
                 <br/>
-                <div>
+                <div id="props">
                     {{#optionalProperties}}
                         <div>
                             <fieldset id="skills" name="skills" title="Skills">

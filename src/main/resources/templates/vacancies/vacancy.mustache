@@ -6,11 +6,11 @@
 </head>
 <body>
     <div>
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
-            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a>
             <br/>
             {{#currentUser}}
                 <br/>
@@ -24,7 +24,7 @@
             {{/currentUser}}
             <hr/>
         </div>
-        <div>
+        <div id="main-page">
             <h4>Vacancy</h4>
             <p>Title: <span>{{vacancy.getTitle}}</span></p>
             <p>Description: <span>{{vacancy.getDescription}}</span></p>
@@ -33,7 +33,7 @@
             <hr/>
         </div>
         <div>
-            <div>
+            <div id="management-links">
                 {{#postedByCurrentEmployer}}
                     <a href="/vacancies/{{{vacancy.getId}}}/edit">Edit vacancy</a><br/><br/>
                     <form method="POST" action="/vacancies/{{{vacancy.getId}}}/delete">
@@ -55,7 +55,7 @@
             </div>
             <hr/>
         </div>
-        <div>
+        <div id="props">
             {{#optionalProperties}}
                 <div>
                     <fieldset id="types" name="types" title="Types">
@@ -102,7 +102,7 @@
                 </div>
             {{/optionalProperties}}
         </div>
-        <div>
+        <div id="responses">
             {{#postedByCurrentEmployer}}
                 <p>Responses to vacancy:</p>
                 {{#vacancy.getResponses}}

@@ -6,11 +6,11 @@
 </head>
 <body>
     <div>
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
-            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a>
             <br/>
             {{#currentUser}}
                 <br/>
@@ -24,7 +24,7 @@
             {{/currentUser}}
             <hr/>
         </div>
-        <div>
+        <div id="list">
             <h4>Vacancies</h4>
             <div>
                 {{#filter}}
@@ -42,7 +42,7 @@
             {{/vacancies}}
             <hr/>
         </div>
-        <div>
+        <div id="management-links">
             {{#currentEmployer}}
                 <a href="/vacancies/new">Add new vacancy</a>
             {{/currentEmployer}}

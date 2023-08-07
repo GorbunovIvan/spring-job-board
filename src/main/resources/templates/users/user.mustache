@@ -7,11 +7,11 @@
 <body>
     <div>
 
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
-            <a href="/applicants">Applicants</a><span>&emsp;</span>
+            <a href="/applicants">Applicants</a>
             <br/>
             {{#currentUser}}
                 <br/>
@@ -26,7 +26,7 @@
             <hr/>
         </div>
 
-        <div>
+        <div id="main-info">
             <h4>User</h4>
             <div>
                 <p>Name: <span>{{user.getName}}</span></p>
@@ -53,7 +53,7 @@
             <hr/>
         </div>
 
-        <div>
+        <div id="management-links">
             <a href="/users/my-page/edit">Edit</a><br/><br/>
             <form method="POST" action="/users/my-page/delete">
                 <button>Delete account</button>

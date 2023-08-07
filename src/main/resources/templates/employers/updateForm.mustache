@@ -7,7 +7,7 @@
 <body>
     <div>
 
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
@@ -28,7 +28,7 @@
 
         <h3>Editing employer - '{{employer.getName}}'</h3>
 
-        <div>
+        <div id="form">
             <form method="POST" action="/employers/{{{employer.getId}}}">
                 <div>
                     <label for="name">Name</label>
