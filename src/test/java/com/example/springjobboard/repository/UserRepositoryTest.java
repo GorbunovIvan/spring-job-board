@@ -76,8 +76,8 @@ class UserRepositoryTest {
     void testSave() {
 
         var newUser = User.builder()
-                .name("Name new user")
-                .email("newUser@mail.com")
+                .name("Name new test user")
+                .email("newTestUser@mail.com")
                 .password("password")
                 .isActive(true)
                 .build();

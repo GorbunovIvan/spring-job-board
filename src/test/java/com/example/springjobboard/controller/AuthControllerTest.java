@@ -55,8 +55,8 @@ class AuthControllerTest {
     void testProcessRegistration() throws Exception {
 
         var newUser = User.builder()
-                .name("Name new user")
-                .email("newUser@mail.com")
+                .name("Name new test user")
+                .email("newTestUser@mail.com")
                 .password("password")
                 .build();
 

@@ -113,7 +113,7 @@ public class BasicRepositoryImpl<T extends HasId<ID>, ID> implements BasicReposi
         T entityInContext = entityManager.find(clazz, id);
         if (entityInContext != null) {
             entityManager.remove(entityInContext);
-            return true;
+            return entityManager.find(clazz, id) == null;
         } else {
             return false;
         }

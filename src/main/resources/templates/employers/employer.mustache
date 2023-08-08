@@ -7,7 +7,7 @@
 <body>
     <div>
 
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
@@ -26,20 +26,20 @@
             <hr/>
         </div>
 
-        <div>
+        <div id="main-info">
             <h4>Employer</h4>
             <p>Name: <span>{{employer.getName}}</span></p>
             <hr/>
         </div>
 
-        <div>
+        <div id="management-links">
             {{#isCurrentEmployer}}
                 <a href="/employers/{{{employer.getId}}}/edit">Edit</a>
                 <hr/>
             {{/isCurrentEmployer}}
         </div>
 
-        <div>
+        <div id="vacancies">
             <p>Vacancies:</p>
             <div>
                 {{#isCurrentEmployer}}

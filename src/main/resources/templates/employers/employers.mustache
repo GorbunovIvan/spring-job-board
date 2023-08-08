@@ -6,7 +6,7 @@
 </head>
 <body>
     <div>
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
@@ -24,7 +24,7 @@
             {{/currentUser}}
             <hr/>
         </div>
-        <div>
+        <div id="list">
             <h4>Employers</h4>
             {{#employers}}
             <div>
@@ -34,7 +34,7 @@
             {{/employers}}
             <hr/>
         </div>
-        <div>
+        <div id="management-links">
             {{^currentEmployer}}
                 <a href="/employers/new">Add new</a>
             {{/currentEmployer}}

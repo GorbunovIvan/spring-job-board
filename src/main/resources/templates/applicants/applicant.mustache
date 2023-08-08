@@ -6,7 +6,7 @@
 </head>
 <body>
     <div>
-        <div>
+        <div id="menu">
             <a href="/users/my-page">My page</a><span>&emsp;</span>
             <a href="/vacancies">Vacancies</a><span>&emsp;</span>
             <a href="/employers">Employers</a><span>&emsp;</span>
@@ -24,21 +24,21 @@
             {{/currentUser}}
             <hr/>
         </div>
-        <div>
+        <div id="main-info">
             <h4>Applicant</h4>
             <p>First name: <span>{{applicant.getFirstName}}</span></p>
             <p>Last name: <span>{{applicant.getLastName}}</span></p>
             <p>Description: <span>{{applicant.getDescription}}</span></p>
             <hr/>
         </div>
-        <div>
+        <div id="management-links">
             {{#isCurrentApplicant}}
                 <a href="/applicants/{{{applicant.getId}}}/edit">Edit</a>
                 <hr/>
             {{/isCurrentApplicant}}
         </div>
         <br/>
-        <div>
+        <div id="other-info">
             {{#optionalProperties}}
                 <div>
                     <fieldset id="skills" name="skills" title="Skills">
@@ -52,7 +52,7 @@
                 </div>
             {{/optionalProperties}}
         </div>
-        <div>
+        <div id="responses">
             {{#isCurrentApplicant}}
                 <p>Responded to vacancies:</p>
                 <div>
