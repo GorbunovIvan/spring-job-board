@@ -1,4 +1,4 @@
-package com.example.springjobboard.bdd;
+package com.example.springjobboard.bdd.pureSelenium;
 
 import com.codeborne.selenide.Condition;
 import com.example.springjobboard.model.users.Applicant;
@@ -46,7 +46,7 @@ public class ApplicantsTest {
 
         for (var applicant : APPLICANTS) {
 
-            open("http://localhost:8080/applicant/" + applicant.getId());
+            open("http://localhost:8080/applicants/" + applicant.getId());
             $(By.xpath("//h4[text()='Applicant']")).shouldBe(Condition.visible);
             $(By.xpath("//span[text()='" + applicant.getFirstName() + "']")).shouldBe(Condition.visible);
             $(By.xpath("//span[text()='" + applicant.getLastName() + "']")).shouldBe(Condition.visible);

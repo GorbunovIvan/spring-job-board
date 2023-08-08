@@ -1,4 +1,4 @@
-package com.example.springjobboard.bdd;
+package com.example.springjobboard.bdd.pureSelenium;
 
 import com.codeborne.selenide.Condition;
 import com.example.springjobboard.model.users.User;
@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled("IT DOES NOT SEE THE TEST BASE AND THEREFORE USES THE REAL BASE!!! THEREFORE IT IS NOT WORKING")
 public class LoginTest {
 
     private static UserRepository userRepository;
@@ -62,7 +63,7 @@ public class LoginTest {
 
         open("http://localhost:8080/auth/register");
 
-        $(By.xpath("//h3[text()='Registration']")).shouldBe(Condition.visible);
+        $(By.xpath("//h4[text()='Registration']")).shouldBe(Condition.visible);
 
         $(By.xpath("//form//input[@id='name']")).val(user.getName());
         $(By.xpath("//form//input[@id='email']")).val(user.getUsername());
@@ -83,7 +84,7 @@ public class LoginTest {
 
         open("http://localhost:8080/auth/login");
 
-        $(By.xpath("//h3[text()='Log in']")).shouldBe(Condition.visible);
+        $(By.xpath("//h4[text()='Log in']")).shouldBe(Condition.visible);
 
         $(By.xpath("//form//input[@id='username']")).val(user.getUsername() + "1"); // wrong username
         $(By.xpath("//form//input[@id='password']")).val(user.getPassword() + "1"); // wrong password
@@ -103,7 +104,7 @@ public class LoginTest {
 
         open("http://localhost:8080/auth/login");
 
-        $(By.xpath("//h3[contains(text(), 'Log in')]")).shouldBe(Condition.visible);
+        $(By.xpath("//h4[contains(text(), 'Log in')]")).shouldBe(Condition.visible);
 
         $(By.xpath("//form//input[@id='username']")).val(user.getUsername());
         $(By.xpath("//form//input[@id='password']")).val(user.getPassword());

@@ -25,7 +25,7 @@ public class CustomAspect {
 
     @Around("Pointcuts.allModelsMethods()")
     public Object aroundModelMethodAdvice(ProceedingJoinPoint joinPoint) {
-        return defaultHandlingJoinPoint(joinPoint, "model");
+        return defaultHandlingJoinPoint(joinPoint, "model"); // It does not work, I don't know why
     }
 
     @Around("Pointcuts.allUtilsMethods()")

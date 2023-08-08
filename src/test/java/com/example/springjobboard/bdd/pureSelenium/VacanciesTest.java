@@ -1,4 +1,4 @@
-package com.example.springjobboard.bdd;
+package com.example.springjobboard.bdd.pureSelenium;
 
 import com.codeborne.selenide.Condition;
 import com.example.springjobboard.model.jobs.Vacancy;
