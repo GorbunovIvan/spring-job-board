@@ -67,8 +67,8 @@ class ApplicantRepositoryTest {
     void testSave() {
 
         var user = User.builder()
-                .name("new user")
-                .email("newUser@mail.com")
+                .name("new test user")
+                .email("newTestUser@mail.com")
                 .password("password")
                 .build();
 

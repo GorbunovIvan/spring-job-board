@@ -67,8 +67,8 @@ class EmployerRepositoryTest {
     void testSave() {
 
         var user = User.builder()
-                .name("new user")
-                .email("newUser@mail.com")
+                .name("Name new test user")
+                .email("newTestUser@mail.com")
                 .password("password")
                 .build();
 
@@ -76,7 +76,7 @@ class EmployerRepositoryTest {
         entityManager.flush();
 
         var newApplicant = Employer.builder()
-                .name("Name empl new")
+                .name("Name test empl new")
                 .user(user)
                 .build();
 
