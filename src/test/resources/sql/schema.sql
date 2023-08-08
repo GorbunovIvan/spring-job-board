@@ -1,18 +1,18 @@
-create table if not exists `job-categories`
+create table if not exists `spring-job-board-test`.`job-categories`
 (
     id   int auto_increment
         primary key,
     name varchar(99) not null
 );
 
-create table if not exists skills
+create table if not exists `spring-job-board-test`.skills
 (
     id   int auto_increment
         primary key,
     name varchar(99) not null
 );
 
-create table if not exists users
+create table if not exists `spring-job-board-test`.users
 (
     id         bigint auto_increment
         primary key,
@@ -25,7 +25,7 @@ create table if not exists users
         unique (email)
 );
 
-create table if not exists applicants
+create table if not exists `spring-job-board-test`.applicants
 (
     id          bigint auto_increment
         primary key,
@@ -39,7 +39,7 @@ create table if not exists applicants
         foreign key (user_id) references users (id)
 );
 
-create table if not exists employers
+create table if not exists `spring-job-board-test`.employers
 (
     id      bigint auto_increment
         primary key,
@@ -53,7 +53,7 @@ create table if not exists employers
         foreign key (user_id) references users (id)
 );
 
-create table if not exists skills_applicants
+create table if not exists `spring-job-board-test`.skills_applicants
 (
     applicant_id bigint not null,
     skill_id     int    not null,
@@ -64,7 +64,7 @@ create table if not exists skills_applicants
         foreign key (skill_id) references skills (id)
 );
 
-create table if not exists users_roles
+create table if not exists `spring-job-board-test`.users_roles
 (
     user_id bigint                 not null,
     roles   enum ('ADMIN', 'USER') null,
@@ -72,7 +72,7 @@ create table if not exists users_roles
         foreign key (user_id) references users (id)
 );
 
-create table if not exists vacancies
+create table if not exists `spring-job-board-test`.vacancies
 (
     id          bigint auto_increment
         primary key,
@@ -85,7 +85,7 @@ create table if not exists vacancies
         foreign key (employer_id) references employers (id)
 );
 
-create table if not exists `response-to-vacancies`
+create table if not exists `spring-job-board-test`.`response-to-vacancies`
 (
     id           bigint auto_increment
         primary key,
@@ -98,7 +98,7 @@ create table if not exists `response-to-vacancies`
         foreign key (applicant_id) references applicants (id)
 );
 
-create table if not exists skills_vacancies
+create table if not exists `spring-job-board-test`.skills_vacancies
 (
     vacancy_id bigint not null,
     skill_id   int    not null,
@@ -109,7 +109,7 @@ create table if not exists skills_vacancies
         foreign key (skill_id) references skills (id)
 );
 
-create table if not exists vacancies_categories
+create table if not exists `spring-job-board-test`.vacancies_categories
 (
     vacancy_id bigint not null,
     category   int    not null,
@@ -120,7 +120,7 @@ create table if not exists vacancies_categories
         foreign key (category) references `job-categories` (id)
 );
 
-create table if not exists vacancies_modes
+create table if not exists `spring-job-board-test`.vacancies_modes
 (
     vacancy_id bigint                       not null,
     modes      enum ('IN_OFFICE', 'REMOTE') null,
@@ -128,11 +128,10 @@ create table if not exists vacancies_modes
         foreign key (vacancy_id) references vacancies (id)
 );
 
-create table if not exists vacancies_types
+create table if not exists `spring-job-board-test`.vacancies_types
 (
     vacancy_id bigint                                                                not null,
     types      enum ('CONTRACT', 'FULL_TIME', 'PART_TIME', 'PERMANENT', 'TEMPORARY') null,
     constraint FK596inyebrcj5yrw5dv0m90a2l
         foreign key (vacancy_id) references vacancies (id)
 );
-
