@@ -3,7 +3,6 @@ package com.example.springjobboard.config;
 import com.example.springjobboard.model.users.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,11 +21,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/users/**").hasAuthority(Role.USER.name())
-                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/**").hasAuthority(Role.USER.name())
+                                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/users/**")).hasAuthority(Role.USER.name())
+                                .requestMatchers(new AntPathRequestMatcher("/**", "GET")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/**", "POST")).hasAuthority(Role.USER.name())
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin

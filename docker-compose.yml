@@ -1,0 +1,36 @@
+
+version: "3.8"
+
+services:
+
+  #  Mysql
+  mysql-db:
+    image: mysql
+    command: --default-authentication-plugin=caching_sha2_password
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: spring-job-board
+
+  #  spring-job-board
+  spring-job-board:
+    depends_on:
+      - mysql-db
+    image: spring-job-board-image
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "jpa.datasource.url" : "jdbc:mysql://mysql-db:3306/spring-job-board",
+        "jpa.datasource.username" : "root",
+        "jpa.datasource.password" : "root",
+        "spring.datasource.initialization-mode" : "always",
+        "spring.datasource.continue-on-error" : "true",
+        "spring.datasource.max-wait" : "30000",
+        "jpa.hibernate.dialect" : "org.hibernate.dialect.MySQLDialect",
+        "jpa.hibernate.show-sql" : "true",
+        "jpa.hibernate.ddl-auto" : "update",
+        "spring.jpa.open-in-view" : "false"
+      }'
+
