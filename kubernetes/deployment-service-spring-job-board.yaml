@@ -1,0 +1,39 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: job-board-deployment
+  labels:
+    app: spring-job-board
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: spring-job-board
+  template:
+    metadata:
+      labels:
+        project: spring-job-board
+    spec:
+      containers:
+        - name: job-board
+          image: ivangorbunovv/spring-job-board-image:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: job-board
+  labels:
+     env  : dev
+     owner: IvanGorbunov
+spec:
+  selector:
+    project: spring-job-board
+  ports:
+    - name      : job-board-listener
+      protocol  : TCP
+      port      : 8080
+      targetPort: 8080
+  #type: CLusterIP
